@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+*{
+	box-sizing: border-box;
+}
+body{
+	font-family: 'Poppins', sans-serif;
+	background: #F7FAFF;
+	display: flex;
+	align-items: center;
+	height: 100vh;
+}
+.name-page{
+		color: #484848;
+		font-weight: 700;
+		font-size: 2rem;
+		outline: none;
+		text-align: center;
+}
+.name-page span{
+	color: #F9BC05;
+}
+
+.auth{
+	width: 90%;
+	max-width: 350px;
+	margin: 0 auto;
+	padding-bottom: 2rem;
+	
+}
+.auth-welcome{
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+.auth-text{
+	font-size: 1rem;
+}
+form button{
+	background: none;
+	border-radius: 1rem;
+	border: 1px solid #F9BC05;
+	padding: .7rem 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+form button img{
+	width: 24px;
+	margin-right: .5rem;
+}
