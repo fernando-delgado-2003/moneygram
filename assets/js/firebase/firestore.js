@@ -112,9 +112,10 @@ async function getIdLink(userId){
 	return id
 }
 async function setIdLink (userId, idLink){
-	 await updateDoc(doc(db, `dataUser/${userId}`), {
+	const status = await updateDoc(doc(db, `dataUser/${userId}`), {
 	idLink: idLink
 	})
+	return status
 }
 
 

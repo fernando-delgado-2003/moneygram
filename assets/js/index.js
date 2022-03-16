@@ -110,14 +110,17 @@
 	$adsNormal.forEach((link)=>{
 		link.addEventListener("click", (e)=>{
 			e.preventDefault();
-				setIdLink(user.uid, e.target.dataset.id)
 			let linkActuality = e.target.href,
 			link = e.target,
 			linkNew = document.createElement("a");
 			linkActuality = `${linkActuality}?id=${link.dataset.id}`,
 			linkNew.href=linkActuality;
-			
-			linkNew.click()
+					setIdLink(user.uid, e.target.dataset.id)
+					.then((data)=>{
+						console.log(data)
+								//	linkNew.click()
+
+					})
 		})
 	})
   }

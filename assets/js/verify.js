@@ -11,13 +11,15 @@ onAuthStateChanged(auth, (user) => {
 				updateUser(user.uid);
 				setIdLink(user.uid, "")
 				message("Vista.confirmada", "sucsses");
+				setTimeout(()=>{
+				location.href="../../home/"
+			}, 4500)
 			}else{
 				message("No hagas travesuras", "error")
+				setTimeout(() => {
+					location.href = "../../home/"
+				}, 4500)
 			}
-			setTimeout(()=>{
-				//location.href="../../home/"
-			}, 4500)
-
 		})
 
 
