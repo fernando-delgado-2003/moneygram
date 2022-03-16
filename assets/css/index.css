@@ -264,7 +264,13 @@ main {
 	cursor: pointer;
 }
 
-.message {
+.message-note{
 	font-size: .6rem;
 	color: #524E4E
+}
+
+.verifying{
+	margin: 3rem 0;
+	text-align: center;
+	font-size: 1.2rem;
 }
