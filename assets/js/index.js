@@ -94,9 +94,9 @@
   	let list = "";
   	for (let i = 0; i < 10; i++) {
   		if (i < 5) {
-  			list += `<li><a href="${adfly}${zshort}${myPage}verify/" data-id="${generateId()}" class="adNormal">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${myPage}verify/" data-id="${generateId()}" class="adNormal">Link ${i+1}</a></li>`;
   		} else if (i < 10) {
-  			list += `<li><a href="${zshort}${adfly}${myPage}verify/" data-id="${generateId()}" class="adNormal">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${myPage}verify/" data-id="${generateId()}" class="adNormal">Link ${i+1}</a></li>`;
   		}
 
   	}
