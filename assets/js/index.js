@@ -2,7 +2,7 @@
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js"
   import { logout } from "./firebase/auth.js";
   import { setIdLink, getPuntsUser, getPaypal, getVideosYoutube } from "./firebase/firestore.js";
-  import { message, validateEmail, generateId} from "./components/components.js"
+  import { message, validateEmail, generateId } from "./components/components.js"
 
   const firebaseConfig = {
   	apiKey: "AIzaSyAULluDXNN1WDGvz4654lkSoMuYLg8VQrE",
@@ -21,9 +21,9 @@
   	$profile = d.getElementById("profile"),
   	zshort = "https://zshort.io/st?api=b81a1877bace42e4f89ea6d4f5948c3b9ef49fa2&url=",
   	adfly = "http://adf.ly/26073619/",
-  	myPage= "https://moneygram.vercel.app/"
-  	
-  	
+  	myPage = "https://moneygram.vercel.app/"
+
+
   onAuthStateChanged(auth, (user) => {
   	if (user) {
   		$profile.innerHTML = `
@@ -89,7 +89,7 @@
 
   function addAds(user) {
   	const $ad = d.getElementById("ad");
-  	
+
 
   	let list = "";
   	for (let i = 0; i < 10; i++) {
@@ -105,22 +105,20 @@
 		${list}
 	</ul>
 	`;
-	const $adsNormal = d.querySelectorAll(".adNormal");
-	
-	$adsNormal.forEach((link)=>{
-		link.addEventListener("click", (e)=>{
-			e.preventDefault();
-			let linkActuality = e.target.href,
-			link = e.target,
-			linkNew = document.createElement("a");
-			linkActuality = `${linkActuality}?id=${link.dataset.id}`,
-			linkNew.href=linkActuality;
-					setIdLink(user.uid, e.target.dataset.id)
-					.then((data)=>{
-						console.log(data)
-								//	linkNew.click()
+  	const $adsNormal = d.querySelectorAll(".adNormal");
 
-					})
-		})
-	})
+  	$adsNormal.forEach((link) => {
+  		link.addEventListener("click", (e) => {
+  			e.preventDefault();
+  			let linkActuality = e.target.href,
+  				link = e.target,
+  				linkNew = document.createElement("a");
+  			linkActuality = `${linkActuality}?id=${link.dataset.id}`,
+  				linkNew.href = linkActuality;
+  			setIdLink(user.uid, e.target.dataset.id)
+  				.then((data) => {
+  					linkNew.click()
+  				})
+  		})
+  	})
   }
