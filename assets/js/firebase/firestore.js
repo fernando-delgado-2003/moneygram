@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js"
-import { updateDoc, onSnapshot, getDoc, setDoc, doc, addDoc, getFirestore, collection, increment, where } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js"
+import { query, getDocs, updateDoc, onSnapshot, getDoc, setDoc, doc, addDoc, getFirestore, collection, increment, where } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js"
 import {message, validateEmail} from "../components/components.js"
 
 const firebaseConfig = {
@@ -101,8 +101,21 @@ async function getPuntsUser(userId, elemtHTML) {
 }
 async function getPaypal (userId){
  const paypal = await	getDoc(doc(db, `dataUser/${userId}`));
- 
  return paypal
 }
+async function getVideosYoutube (){
+ const videos = await	getDocs(collection(db, `youtube`));
+ return videos
+}
+async function getIdLink(userId){
+	const id= getDoc(doc(db, `dataUser/${userId}`));
+	return id
+}
+async function setIdLink (userId){
+	 await updateDoc(doc(db, `dataUser/${userId}`), {
+	idLink: idLink
+	})
+}
 
-export { getPaypal, db, getPuntsUser, doc, addUser, getDoc, auth, updateUser, onAuthStateChanged }
+
+export {getIdLink, setIdLink, getVideosYoutube, getPaypal, db, getPuntsUser, doc, addUser, getDoc, auth, updateUser, onAuthStateChanged }

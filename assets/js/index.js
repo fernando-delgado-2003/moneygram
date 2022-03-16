@@ -1,8 +1,8 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js"
   import { logout } from "./firebase/auth.js";
-  import { getPuntsUser, getPaypal} from "./firebase/firestore.js";
-  import {message, validateEmail} from "./components/components.js"
+  import { setIdLink, getPuntsUser, getPaypal, getVideosYoutube } from "./firebase/firestore.js";
+  import { message, validateEmail, generateId} from "./components/components.js"
 
   const firebaseConfig = {
   	apiKey: "AIzaSyAULluDXNN1WDGvz4654lkSoMuYLg8VQrE",
@@ -18,7 +18,12 @@
   const auth = getAuth(),
   	userLogin = auth.currentUser,
   	d = document,
-  	$profile = d.getElementById("profile")
+  	$profile = d.getElementById("profile"),
+  	zshort = "https://zshort.io/st?api=b81a1877bace42e4f89ea6d4f5948c3b9ef49fa2&url=",
+  	adfly = "http://adf.ly/26073619/",
+  	myPage= "https://moneygram.vercel.app/"
+  	
+  	
   onAuthStateChanged(auth, (user) => {
   	if (user) {
   		$profile.innerHTML = `
@@ -32,35 +37,43 @@
 				</button>
 			</div>
 		`;
-  		if (location.pathname == "/home/") {
-  			addAds(user)
+  		if (location.pathname == "/home/" || location.pathname == "/home/index.html") {
+  			//LINKS
+  			addAds(user);
+
+
+  			//LINKS CON VIDEOS DE YOUTUBE
+  			getVideosYoutube(user.uid)
+  				.then((data) => {
+  					data.forEach((docu) => {
+
+  					})
+  				})
   		} else {
   			let input = d.querySelector("form").querySelector("input[type='email']");
   			getPaypal(user.uid)
-  			.then((data)=>{
-  				if(data.data().paypal != ""){
-  					input.value=data.data().paypal
-  				}
-  			})
+  				.then((data) => {
+  					if (data.data().paypal != "") {
+  						input.value = data.data().paypal
+  					}
+  				})
   			d.querySelector("form").addEventListener("submit", (e) => {
   				e.preventDefault();
   				d.querySelector("form").classList.add("send")
-					let verifyEmail= validateEmail(input.value);
+  				let verifyEmail = validateEmail(input.value);
   				if (verifyEmail) {
   					getPuntsUser(user.uid, d.getElementById("punts"))
-  				}else{
+  				} else {
   					message("Correo electrónico no válido ", "error")
   				}
   			})
   		}
-
   		d.getElementById("btn-logout").addEventListener("click", () => {
   			logout()
   			location.href = "../../"
   		})
 
   		getPuntsUser(user.uid, d.getElementById("punts"))
-
 
   		$profile.querySelector("img").addEventListener("click", () => {
   			$profile.querySelector(".pop").classList.toggle("active")
@@ -75,15 +88,15 @@
 
 
   function addAds(user) {
-  	const $ad = d.getElementById("ad"),
-  	zshort="https://zshort.io/st?api=b81a1877bace42e4f89ea6d4f5948c3b9ef49fa2&url=http://adf.ly/26073619/https://moneygram.netlify.app/verify/",
-  	adfly= "http://adf.ly/26073619/https://zshort.io/st?api=b81a1877bace42e4f89ea6d4f5948c3b9ef49fa2&url=https://moneygram.netlify.app/verify/";
+  	const $ad = d.getElementById("ad");
+  	
+
   	let list = "";
   	for (let i = 0; i < 10; i++) {
   		if (i < 5) {
-  			list += `<li><a href="${adfly}"?id=${user.uid}">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${zshort}${myPage}verify/" data-id="${generateId()}" class="adNormal">Link ${i+1}</a></li>`;
   		} else if (i < 10) {
-  			list += `<li><a href="${zshort}?id=${user.uid}">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${zshort}${adfly}${myPage}verify/" data-id="${generateId()}" class="adNormal">Link ${i+1}</a></li>`;
   		}
 
   	}
@@ -92,5 +105,21 @@
 		${list}
 	</ul>
 	`;
-
+	const $adsNormal = d.querySelectorAll(".adNormal");
+	
+	$adsNormal.forEach((link)=>{
+		link.addEventListener("click", (e)=>{
+			e.preventDefault();
+			
+			let linkActuality = e.target.href,
+			link = e.target,
+			linkNew = document.createElement("a");
+			linkActuality = `${linkActuality}?id=${link.dataset.id}`,
+			linkNew.href=linkActuality;
+			
+			
+			linkNew.click()
+		//	setIdLink(user.uid, e.target.dataset.id)
+		})
+	})
   }
