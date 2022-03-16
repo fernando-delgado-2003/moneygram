@@ -119,7 +119,7 @@
 			
 			
 			linkNew.click()
-		//	setIdLink(user.uid, e.target.dataset.id)
+		setIdLink(user.uid, e.target.dataset.id)
 		})
 	})
   }
