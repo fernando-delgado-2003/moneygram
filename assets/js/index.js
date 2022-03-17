@@ -21,9 +21,11 @@
   	$profile = d.getElementById("profile"),
   	zshort = "https://zshort.io/st?api=b81a1877bace42e4f89ea6d4f5948c3b9ef49fa2&url=",
   	adfly = "http://adf.ly/26073619/",
-  	myPage = "https://moneygram.vercel.app/"
+  	myPage = "https://moneydrop-verify.vercel.app/"
 
-
+function random(min, max) {
+    return Math.floor((Math.random() * (max - min + 1)) + min);
+}
   onAuthStateChanged(auth, (user) => {
   	if (user) {
   		$profile.innerHTML = `
@@ -91,12 +93,14 @@
   	const $ad = d.getElementById("ad");
 
 
-  	let list = "";
+  	let list = "",
+  	id = "";
   	for (let i = 0; i < 10; i++) {
+  		id=generateId();
   		if (i < 5) {
-  			list += `<li><a href="${adfly}${myPage}verify/" data-id="${generateId()}" class="adNormal">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${myPage}post ${random(1,10)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
   		} else if (i < 10) {
-  			list += `<li><a href="${adfly}${myPage}verify/" data-id="${generateId()}" class="adNormal">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${myPage}post ${random(1, 10)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
   		}
 
   	}
@@ -113,7 +117,6 @@
   			let linkActuality = e.target.href,
   				link = e.target,
   				linkNew = document.createElement("a");
-  			linkActuality = `${linkActuality}?id=${link.dataset.id}`,
   				linkNew.href = linkActuality;
   			setIdLink(user.uid, e.target.dataset.id)
   				.then((data) => {

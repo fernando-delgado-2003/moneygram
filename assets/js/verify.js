@@ -4,7 +4,7 @@ import {message} from "./components/components.js";
 onAuthStateChanged(auth, (user) => {
 	if (user) {
 		let params = new URLSearchParams(location.search);
-		let id = params.get('id');
+		let id = params.get('idLink');
 		getIdLink(user.uid)
 		.then((data)=>{
 			if(id == data.data().idLink){
