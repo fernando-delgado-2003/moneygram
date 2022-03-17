@@ -26,6 +26,8 @@ onAuthStateChanged(auth, (user) => {
 		})
 
 
+	}else{
+		alert("No hay seseion")
 	}
 });
 
