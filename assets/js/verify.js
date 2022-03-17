@@ -18,6 +18,7 @@ onAuthStateChanged(auth, (user) => {
 				location.href="../../home/"
 			}, 4500)
 			}else{
+				
 				message("No hagas travesuras", "error")
 				setTimeout(() => {
 					location.href = "../../home/"
