@@ -83,6 +83,8 @@ function random(min, max) {
 
 
 
+  	}else{
+  		location.href="../../"
   	}
   });
 

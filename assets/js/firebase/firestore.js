@@ -44,7 +44,7 @@ async function addUser(userId) {
 
 function updateUser(userId) {
 	updateDoc(doc(db, `dataUser/${userId}`), {
-		punts: increment(0.003),
+		punts: increment(0.002),
 		totalClick: increment(1)
 	})
 
