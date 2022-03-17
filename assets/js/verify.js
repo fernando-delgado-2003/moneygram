@@ -5,8 +5,10 @@ onAuthStateChanged(auth, (user) => {
 	if (user) {
 		let params = new URLSearchParams(location.search);
 		let id = params.get('idlink');
+		alert("parametros")
 		getIdLink(user.uid)
 		.then((data)=>{
+			alert("exho")
 			if(id == data.data().idLink){
 				updateUser(user.uid);
 				setIdLink(user.uid, "")
