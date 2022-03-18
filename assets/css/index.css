@@ -256,6 +256,11 @@ main {
 	list-style: none;
 	
 }
+.list-links li a{
+	display: block;
+		padding: 6px;
+
+}
 
 .list-links li a:hover {}
 
@@ -264,7 +269,6 @@ main {
 
 	background: #F9BC05;
 	font-family: 'Poppins', sans-serif;
-	padding: 6px;
 	margin: 10px 15px;
 	border-radius: .4rem;
 	cursor: pointer;

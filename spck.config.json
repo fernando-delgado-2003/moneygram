@@ -1,7 +1,7 @@
 {
   "run": {
     "type": "file",
-    "file": "referrals/",
+    "file": "home/",
     "ignoreCurrent": false
   }
 }

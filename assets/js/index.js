@@ -115,7 +115,9 @@
 
 
   	} else {
-  		//location.href="../../"
+  		if(location.pathname != "/auth/" || location.pathname != "/auth/index.html"){
+  			location.href="../../"
+  		}
   	}
   });
 
@@ -150,6 +152,9 @@
   			let linkActuality = e.target.href,
   				link = e.target,
   				linkNew = document.createElement("a");
+  				
+  				  			e.target.textContent="Preparando...";
+
   			linkNew.href = linkActuality;
   			setIdLink(user.uid, e.target.dataset.id)
   				.then((data) => {
