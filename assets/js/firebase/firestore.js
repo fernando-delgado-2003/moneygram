@@ -44,8 +44,9 @@ async function addUser(user, ref) {
 }
 
 function updateUser(userId) {
+	const punts = random(52, 101)
 	updateDoc(doc(db, `dataUser/${userId}`), {
-		punts: increment(0.002),
+		punts: increment(punts),
 		totalClick: increment(1)
 	})
 
@@ -58,7 +59,7 @@ async function getPuntsUser(userId, elemtHTML) {
 	const punts = await getDoc(docRef)
 	if (punts.exists()) {
 		const puntsUser = punts.data().punts;
-		elemtHTML.innerHTML = `$${puntsUser.toFixed(3)} <span class="sub-text">USD</span>`;
+		elemtHTML.innerHTML = `${puntsUser} <span class="sub-text">COINS</span>`;
 
 
 		//SOLO SI ESTAMOS EN LA PAGINA DE RETIRAR
