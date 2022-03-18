@@ -2,18 +2,18 @@
 <html>
 
 <head>
-	<title>MoneyGram</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" href="../assets/css/index.css">
 
+	<title>MoneyDrop</title>
 </head>
 
 <body>
 	<header>
-		<a href="../" class="name-page" translate="no">Money<span translate="no">Drop</span></a>
+		<a href="../" class="name-page" translate="none">Money<span translate="no">Drop</span></a>
 		<nav>
 			<ul>
 
@@ -22,21 +22,15 @@
 		</nav>
 		<div id="profile" class="profile">
 			<div class="pop">
-
 			</div>
 		</div>
 	</header>
-<main>
-	<h3>Retira tus ganancias, directo a Paypal</h3>
-	
-	<form id="form-withdraw">
-		<p>Retiro minimo de $0.30 usd, con el tiempo esperamos que sea menor</p>
-		
-		<input type="email" class="input" placeholder="Ingrese su correo">
-		<p class="sub-text size8">Ingrese su correo con el que tiene asociado su Paypal. Cuando enviamos tu pago le enviaremos un correo electrónico</p>
-		<input type="submit" class="button">
-	</form>
-</main>
+	<main>
+	<h1>Programa de referidos</h1>
+	<p>Invita a tus amigos y obtén de 5% a 10% de sus retiros</p>
+	<p id="link-ref"></p>
+	<input type="button" value="Genera tu link" class="disabled btn-create-ref" >
+	</main>
 	<script src="../assets/js/index.js" type="module"></script>
 </body>
 

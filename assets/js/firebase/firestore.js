@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js"
 import { query, getDocs, updateDoc, onSnapshot, getDoc, setDoc, doc, addDoc, getFirestore, collection, increment, where } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js"
-import {message, validateEmail} from "../components/components.js"
+import {random, generateId, message, validateEmail} from "../components/components.js"
 
 const firebaseConfig = {
 	apiKey: "AIzaSyAULluDXNN1WDGvz4654lkSoMuYLg8VQrE",
@@ -20,24 +20,25 @@ const app = initializeApp(firebaseConfig),
 	d = document;
 
 
-async function addUser(userId) {
-	const docRef = doc(db, `dataUser/${userId}`);
+async function addUser(user, ref) {
+	const docRef = doc(db, `dataUser/${user.uid}`);
 
 
 	const docSnap = await getDoc(docRef);
-
 	if (docSnap.exists()) {
 		location.href = "../../../home/"
 	} else {
-		// doc.data() will be undefined in this case
+		if(ref == null){
+			ref = "";
+		}
 		await setDoc(docRef, {
 			punts: 0,
 			paypal: "",
-			totalClick: 0
+			totalClick: 0,
+			ref: ref,
+			name: user.displayName
 		})
 		location.href = "../../../home/"
-
-
 	}
 
 }
@@ -117,6 +118,32 @@ async function setIdLink (userId, idLink){
 	})
 	return status
 }
+async function getCodeRef (userId){
+	const code = await getDoc(doc(db, `dataUser/${userId}`))
+	return code
+}
+async function setCodeRef (user){
+	let name= user.displayName,
+	nameShort = [] ;
+	
+	name = name.replace(" ", "");
+	name = name.split("");
+	for(let i = 0; i < 2; i++){
+		nameShort.push(random(0, name.length-1))
+	}
+	const code = `${generateId()}${name[nameShort[0]]}${name[nameShort[1]]}`,
+	 codeStatus = await updateDoc(doc(db, `dataUser/${user.uid}`), {
+		codeRef: code
+	})
+	return codeStatus
 
-
-export {getIdLink, setIdLink, getVideosYoutube, getPaypal, db, getPuntsUser, doc, addUser, getDoc, auth, updateUser, onAuthStateChanged }
+}
+async function getUserRef (codeRef){
+	const userRef = collection(db, 'dataUser');
+	const q = query(userRef, where("codeRef", "==", codeRef))
+	const querySnapShot = await getDocs(q)
+	querySnapShot.forEach((docu)=>{
+		console.log(docu.data())
+	})
+}
+export {getUserRef, setCodeRef,getCodeRef, getIdLink, setIdLink, getVideosYoutube, getPaypal, db, getPuntsUser, doc, addUser, getDoc, auth, updateUser, onAuthStateChanged }

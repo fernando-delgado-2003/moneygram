@@ -1,8 +1,8 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js"
   import { logout } from "./firebase/auth.js";
-  import { setIdLink, getPuntsUser, getPaypal, getVideosYoutube } from "./firebase/firestore.js";
-  import { message, validateEmail, generateId } from "./components/components.js"
+  import { getUserRef, setCodeRef, getCodeRef, setIdLink, getPuntsUser, getPaypal, getVideosYoutube } from "./firebase/firestore.js";
+  import { random, message, validateEmail, generateId } from "./components/components.js"
 
   const firebaseConfig = {
   	apiKey: "AIzaSyAULluDXNN1WDGvz4654lkSoMuYLg8VQrE",
@@ -23,9 +23,7 @@
   	adfly = "http://adf.ly/26073619/",
   	myPage = "https://moneydrop-verify.vercel.app/"
 
-function random(min, max) {
-    return Math.floor((Math.random() * (max - min + 1)) + min);
-}
+
   onAuthStateChanged(auth, (user) => {
   	if (user) {
   		$profile.innerHTML = `
@@ -33,7 +31,9 @@ function random(min, max) {
 			<img src="${user.photoURL}" alt="">
 			<div class="pop">
 				<p class="name-user">${user.displayName}</p>
+				<a href ="../../home/">Ganar</a>
 				<a href="../../withdraw/">Retirar</a>
+				<a href="../../referrals/">Referidos</a>
 				<button class="btn-logout" id="btn-logout">
 					Cerrar sesión
 				</button>
@@ -51,7 +51,9 @@ function random(min, max) {
 
   					})
   				})
-  		} else {
+  		} else if (location.pathname == "/withdraw/" || location.pathname == "/withdraw/index.html") {
+
+
   			let input = d.querySelector("form").querySelector("input[type='email']");
   			getPaypal(user.uid)
   				.then((data) => {
@@ -69,7 +71,36 @@ function random(min, max) {
   					message("Correo electrónico no válido ", "error")
   				}
   			})
+
+
+  		} else if (location.pathname == "/referrals/" || location.pathname == "/referrals/index.html") {
+  			getCodeRef(user.uid)
+  				.then((data) => {
+  					data = data.data();
+
+  					let btnCreateCode = d.querySelector("input[type='button']");
+  					if (data.codeRef == undefined) {
+
+  						btnCreateCode.classList.remove("disabled");
+  						btnCreateCode.addEventListener("click", (e) => {
+  							setCodeRef(user)
+  								.then(() => {
+  									getCodeRef(user.uid)
+  										.then((dataR) => {
+  											btnCreateCode.classList.add("disabled");
+  											viewRefs(dataR.data().codeRef)
+
+
+  										})
+  								})
+  						})
+  					} else {
+  						viewRefs(data.codeRef)
+  					}
+  				})
   		}
+
+
   		d.getElementById("btn-logout").addEventListener("click", () => {
   			logout()
   			location.href = "../../"
@@ -83,8 +114,8 @@ function random(min, max) {
 
 
 
-  	}else{
-  		location.href="../../"
+  	} else {
+  		//location.href="../../"
   	}
   });
 
@@ -96,9 +127,9 @@ function random(min, max) {
 
 
   	let list = "",
-  	id = "";
+  		id = "";
   	for (let i = 0; i < 10; i++) {
-  		id=generateId();
+  		id = generateId();
   		if (i < 5) {
   			list += `<li><a href="${adfly}${myPage}post ${random(1,55)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
   		} else if (i < 10) {
@@ -119,11 +150,19 @@ function random(min, max) {
   			let linkActuality = e.target.href,
   				link = e.target,
   				linkNew = document.createElement("a");
-  				linkNew.href = linkActuality;
+  			linkNew.href = linkActuality;
   			setIdLink(user.uid, e.target.dataset.id)
   				.then((data) => {
   					linkNew.click()
   				})
   		})
   	})
+  }
+
+  function viewRefs(codeRef) {
+  	d.getElementById("link-ref").innerHTML = `
+			Este es su link de referencia
+  		<span>https://moneydrop.vercel.app/auth/?q=sign_up&ref=${codeRef}</span>
+  	`;
+  	getUserRef(codeRef)
   }

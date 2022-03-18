@@ -18,13 +18,15 @@ import {login} from "./firebase/auth.js"
 
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
-
+const values = window.location.search,
+	urlParams = new URLSearchParams(values),
+	ref = urlParams.get("ref");
 	if(user != null){
-			addUser(user.uid)
+			addUser(user, ref)
 	}
 });
 
-d.querySelector("form").addEventListener("submit", (e)=>{
+document.querySelector("form").addEventListener("submit", (e)=>{
 	e.preventDefault()
 	login()
 

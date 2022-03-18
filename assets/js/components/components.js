@@ -29,6 +29,8 @@ function validateEmail(email) {
   	return false
   }
 }
-
+function random(min, max) {
+    return Math.floor((Math.random() * (max - min + 1)) + min);
+}
 function generateId () { return Math.random().toString(36).substr(2, 18)};
-export {validateEmail, message, generateId}
+export {random, validateEmail, message, generateId}
