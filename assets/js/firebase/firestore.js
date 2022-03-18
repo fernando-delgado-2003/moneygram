@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js"
 import { query, getDocs, updateDoc, onSnapshot, getDoc, setDoc, doc, addDoc, getFirestore, collection, increment, where } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js"
-import {random, generateId, message, validateEmail} from "../components/components.js"
+import { random, generateId, message, validateEmail } from "../components/components.js"
 
 const firebaseConfig = {
 	apiKey: "AIzaSyAULluDXNN1WDGvz4654lkSoMuYLg8VQrE",
@@ -28,7 +28,7 @@ async function addUser(user, ref) {
 	if (docSnap.exists()) {
 		location.href = "../../../home/"
 	} else {
-		if(ref == null){
+		if (ref == null) {
 			ref = "";
 		}
 		await setDoc(docRef, {
@@ -67,7 +67,7 @@ async function getPuntsUser(userId, elemtHTML) {
 
 			const $form = d.getElementById("form-withdraw");
 
-			if (validateEmail($form.querySelector("input[type='email']").value) &&  d.querySelector("form").classList.contains("send")){
+			if (validateEmail($form.querySelector("input[type='email']").value) && d.querySelector("form").classList.contains("send")) {
 
 				if (punts.data().punts >= 0.30) {
 					let inputValue = $form.querySelector("input[type='email']").value
@@ -100,50 +100,56 @@ async function getPuntsUser(userId, elemtHTML) {
 
 	}
 }
-async function getPaypal (userId){
- const paypal = await	getDoc(doc(db, `dataUser/${userId}`));
- return paypal
+async function getPaypal(userId) {
+	const paypal = await getDoc(doc(db, `dataUser/${userId}`));
+	return paypal
 }
-async function getVideosYoutube (){
- const videos = await	getDocs(collection(db, `youtube`));
- return videos
+async function getVideosYoutube() {
+	const videos = await getDocs(collection(db, `youtube`));
+	return videos
 }
-async function getIdLink(userId){
-	const id= getDoc(doc(db, `dataUser/${userId}`));
+async function getIdLink(userId) {
+	const id = getDoc(doc(db, `dataUser/${userId}`));
 	return id
 }
-async function setIdLink (userId, idLink){
+async function setIdLink(userId, idLink) {
 	const status = await updateDoc(doc(db, `dataUser/${userId}`), {
-	idLink: idLink
+		idLink: idLink
 	})
 	return status
 }
-async function getCodeRef (userId){
+async function getCodeRef(userId) {
 	const code = await getDoc(doc(db, `dataUser/${userId}`))
 	return code
 }
-async function setCodeRef (user){
-	let name= user.displayName,
-	nameShort = [] ;
-	
+async function setCodeRef(user) {
+	let name = user.displayName,
+		nameShort = [];
+
 	name = name.replace(" ", "");
 	name = name.split("");
-	for(let i = 0; i < 2; i++){
-		nameShort.push(random(0, name.length-1))
+	for (let i = 0; i < 2; i++) {
+		nameShort.push(random(0, name.length - 1))
 	}
 	const code = `${generateId()}${name[nameShort[0]]}${name[nameShort[1]]}`,
-	 codeStatus = await updateDoc(doc(db, `dataUser/${user.uid}`), {
-		codeRef: code
-	})
+		codeStatus = await updateDoc(doc(db, `dataUser/${user.uid}`), {
+			codeRef: code
+		})
 	return codeStatus
 
 }
-async function getUserRef (codeRef){
+async function getUserRef(codeRef) {
 	const userRef = collection(db, 'dataUser');
-	const q = query(userRef, where("codeRef", "==", codeRef))
-	const querySnapShot = await getDocs(q)
-	querySnapShot.forEach((docu)=>{
-		console.log(docu.data())
+	const q = query(userRef, where("ref", "==", codeRef))
+	const querySnapShot = await getDocs(q);
+	let template = "";
+
+	querySnapShot.forEach((docu) => {
+		template += `
+			<li>${docu.data().name}</li>
+		`;
 	})
+
+	d.getElementById("list-ref").innerHTML= template;
 }
-export {getUserRef, setCodeRef,getCodeRef, getIdLink, setIdLink, getVideosYoutube, getPaypal, db, getPuntsUser, doc, addUser, getDoc, auth, updateUser, onAuthStateChanged }
+export { getUserRef, setCodeRef, getCodeRef, getIdLink, setIdLink, getVideosYoutube, getPaypal, db, getPuntsUser, doc, addUser, getDoc, auth, updateUser, onAuthStateChanged }

@@ -14,7 +14,7 @@ a {
 	color: #000000;
 }
 
-ul {
+header ul {
 	display: flex;
 	list-style: none;
 }
@@ -252,19 +252,25 @@ main {
 
 .list-links {
 	padding: 0;
-	flex-wrap: wrap;
-
+	flex-wrap: nowrap;
+	list-style: none;
+	
 }
 
 .list-links li a:hover {}
 
 .list-links li {
+	display: inline-block;
+
 	background: #F9BC05;
 	font-family: 'Poppins', sans-serif;
-	padding: .4rem;
-	margin: .6rem;
+	padding: 6px;
+	margin: 10px 15px;
 	border-radius: .4rem;
 	cursor: pointer;
+	max-width: calc(100% / 2 - 42px );
+	min-width: calc(100% / 2 - 42px );
+	font-weight: 600;
 }
 
 .message-note{
@@ -279,6 +285,10 @@ main {
 }
 .disabled{
 	display: none;
+}
+#list-ref li{
+	margin: .4rem 0;
+	text-align: left
 }
 #link-ref span{
 	display: block;
