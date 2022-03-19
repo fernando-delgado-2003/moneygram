@@ -70,7 +70,7 @@ async function getPuntsUser(userId, elemtHTML) {
 
 			if (validateEmail($form.querySelector("input[type='email']").value) && d.querySelector("form").classList.contains("send")) {
 
-				if (punts.data().punts >= 0.30) {
+				if (punts.data().punts >= 30000) {
 					let inputValue = $form.querySelector("input[type='email']").value
 					await updateDoc(doc(db, `dataUser/${userId}`), {
 						paypal: inputValue
