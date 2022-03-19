@@ -45,11 +45,9 @@
 
 
   			//LINKS CON VIDEOS DE YOUTUBE
-  			getVideosYoutube(user.uid)
+  			getVideosYoutube(user)
   				.then((data) => {
-  					data.forEach((docu) => {
-
-  					})
+  					addAdsYoutube(user ,data)
   				})
   		} else if (location.pathname == "/withdraw/" || location.pathname == "/withdraw/index.html") {
 
@@ -115,8 +113,8 @@
 
 
   	} else {
-  		if(location.pathname != "/auth/" || location.pathname != "/auth/index.html"){
-  			location.href="../../"
+  		if (location.pathname != "/auth/" || location.pathname != "/auth/index.html") {
+  			location.href = "../../"
   		}
   	}
   });
@@ -130,6 +128,7 @@
 
   	let list = "",
   		id = "";
+
   	for (let i = 0; i < 10; i++) {
   		id = generateId();
   		if (i < 5) {
@@ -152,8 +151,46 @@
   			let linkActuality = e.target.href,
   				link = e.target,
   				linkNew = document.createElement("a");
-  				
-  				  			e.target.textContent="Preparando...";
+
+  			e.target.textContent = "Preparando...";
+
+  			linkNew.href = linkActuality;
+  			setIdLink(user.uid, e.target.dataset.id)
+  				.then((data) => {
+  					linkNew.click()
+  				})
+  		})
+  	})
+  }
+
+
+  function addAdsYoutube(user, videos) {
+  	const $ad = d.getElementById("ad-youtube");
+
+  	let list = "",
+  		id = "",
+  		i = 0;
+	videos.forEach((video)=>{
+		i++
+		id = generateId();
+  		list += `<li><a href="${adfly}${myPage}videos/video ${random(1,1)}/?idLink=${id}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
+	})
+	$ad.innerHTML = `
+	<ul class="list-links">
+		${list}
+	</ul>
+	`;
+
+  	const $adsYoutube = d.querySelectorAll(".ad-youtube");
+
+  	$adsYoutube.forEach((link) => {
+  		link.addEventListener("click", (e) => {
+  			e.preventDefault();
+  			let linkActuality = e.target.href,
+  				link = e.target,
+  				linkNew = document.createElement("a");
+
+  			e.target.textContent = "Preparando...";
 
   			linkNew.href = linkActuality;
   			setIdLink(user.uid, e.target.dataset.id)

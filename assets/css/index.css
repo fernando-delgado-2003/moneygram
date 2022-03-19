@@ -25,7 +25,11 @@ header ul {
 	border-radius: .4rem;
 	outline: none;
 }
-
+.ad-youtube{
+	background: #FE0000;
+	border-radius: .4rem;
+	color: #fff;
+}
 .message {
 	transition: right 1s;
 	padding: .2rem .5rem;
