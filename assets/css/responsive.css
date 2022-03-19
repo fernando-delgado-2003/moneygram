@@ -3,10 +3,15 @@
 		width: calc(100% /2 - 30px);
 		margin: 15px;
 	}
+
 	.list-links li {
-	max-width: calc(100% / 3 - 42px );
-	min-width: calc(100% / 3 - 42px );
-}
+		max-width: calc(100% / 3 - 42px);
+		min-width: calc(100% / 3 - 42px);
+	}
+
+	h3 {
+		font-size: 2rem;
+	}
 
 }
 
@@ -15,8 +20,14 @@
 		width: calc(100% / 3 - 30px);
 		margin: 15px;
 	}
-		.list-links li {
-	max-width: calc(100% / 4 - 42px );
-	min-width: calc(100% / 4 - 42px );
-}
+
+	.list-links li {
+		max-width: calc(100% / 4 - 42px);
+		min-width: calc(100% / 4 - 42px);
+	}
+
+	h3 {
+		font-size: 2rem;
+
+	}
 }
