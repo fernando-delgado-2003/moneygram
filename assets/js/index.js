@@ -171,11 +171,13 @@
   		id = "",
   		i = 0;
 	videos.forEach((video)=>{
-		i++
+		i++;
 		id = generateId();
-  		list += `<li><a href="${adfly}${myPage}videos/video ${random(1,1)}/?idLink=${id}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
+  		list += `<li><a href="${adfly}${myPage}videos/video ${random(1,1)}/?idLink=${id}&linkYoutube=${video.data().link}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
 	})
+	
 	$ad.innerHTML = `
+	<h3>Gana puntos, viendo videos de Youtube</h3>
 	<ul class="list-links">
 		${list}
 	</ul>
