@@ -4,7 +4,6 @@
 		margin: 15px;
 	}
 	.list-links li {
-	margin: 10px 15px;
 	max-width: calc(100% / 3 - 42px );
 	min-width: calc(100% / 3 - 42px );
 }
@@ -16,4 +15,8 @@
 		width: calc(100% / 3 - 30px);
 		margin: 15px;
 	}
+		.list-links li {
+	max-width: calc(100% / 4 - 42px );
+	min-width: calc(100% / 4 - 42px );
+}
 }
