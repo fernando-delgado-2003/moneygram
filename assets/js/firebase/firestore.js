@@ -47,7 +47,7 @@ async function addUser(user, ref) {
 }
 
 function updateUser(userId) {
-	const punts = random(39, 101)
+	const punts = random(39, 89)
 	updateDoc(doc(db, `dataUser/${userId}`), {
 		punts: increment(punts),
 		totalClick: increment(1)
