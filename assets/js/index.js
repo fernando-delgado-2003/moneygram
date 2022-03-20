@@ -132,9 +132,9 @@
   	for (let i = 0; i < 10; i++) {
   		id = generateId();
   		if (i < 5) {
-  			list += `<li><a href="${adfly}${myPage}posts/post ${random(1,101)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${myPage}posts/post ${random(1,101)}/?idLink=${id}&idUser=${user.uid}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
   		} else if (i < 10) {
-  			list += `<li><a href="${adfly}${myPage}posts/post ${random(1, 101)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${myPage}posts/post ${random(1, 101)}/?idLink=${id}&idUser=${user.id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
   		}
 
   	}
@@ -173,7 +173,7 @@
 	videos.forEach((video)=>{
 		i++;
 		id = generateId();
-  		list += `<li><a href="${adfly}${myPage}videos/video ${random(1,101)}/?idLink=${id}&linkYoutube=${video.data().link}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
+  		list += `<li><a href="${adfly}${myPage}videos/video ${random(1,101)}/?idLink=${id}&linkYoutube=${video.data().link}&idUser=${user.uid}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
 	})
 	
 	$ad.innerHTML = `
