@@ -32,13 +32,16 @@ async function addUser(user, ref) {
 			ref = "";
 		}
 		await setDoc(docRef, {
-			punts: 0,
+			punts: 500,
 			paypal: "",
 			totalClick: 0,
 			ref: ref,
 			name: user.displayName
 		})
-		location.href = "../../../home/"
+		message("Se agrego 500 coins por ser nuevo usuario", "sucsses");
+		setTimeout(()=>{
+			location.href = "../../../home/"
+		}, 4000)
 	}
 
 }
