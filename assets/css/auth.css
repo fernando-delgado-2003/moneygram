@@ -2,6 +2,44 @@
 *{
 	box-sizing: border-box;
 }
+
+.message {
+	transition: right 1s;
+	padding: .2rem .5rem;
+	border-radius: .3rem;
+	position: absolute;
+	top: 2rem;
+	right: -100%;
+	display: inline-block;
+	max-width: 160px;
+}
+
+.message.error {
+	background: #FFE0E3;
+	border-left: 5px solid #FF4858;
+
+}
+.message.sucsses{
+	background: #C3F3D7;
+	border-left: 5px solid #2FD573;
+}
+.message.error p{
+		color: #FF4858;
+
+}
+.message.sucsses p{
+	color: #2FD573;
+}
+.message.active {
+	right: 10px;
+}
+
+.message p {
+	font-size: .8rem;
+	font-family: 'Poppins', sans-serif;
+
+}
+
 body{
 	font-family: 'Poppins', sans-serif;
 	background: #F7FAFF;
