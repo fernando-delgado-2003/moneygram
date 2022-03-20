@@ -132,9 +132,9 @@
   	for (let i = 0; i < 10; i++) {
   		id = generateId();
   		if (i < 5) {
-  			list += `<li><a href="${adfly}${myPage}post ${random(1,85)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${myPage}posts/post ${random(1,85)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
   		} else if (i < 10) {
-  			list += `<li><a href="${adfly}${myPage}post ${random(1, 85)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
+  			list += `<li><a href="${adfly}${myPage}posts/post ${random(1, 85)}/?idLink=${id}" data-id="${id}" class="adNormal">Link ${i+1}</a></li>`;
   		}
 
   	}
