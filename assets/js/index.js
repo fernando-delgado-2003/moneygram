@@ -173,7 +173,7 @@
 	videos.forEach((video)=>{
 		i++;
 		id = generateId();
-  		list += `<li><a href="${myPage}videos/video ${random(1,75)}/?idLink=${id}&linkYoutube=${video.data().link}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
+  		list += `<li><a href="${adfly}${myPage}videos/video ${random(1,75)}/?idLink=${id}&linkYoutube=${video.data().link}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
 	})
 	
 	$ad.innerHTML = `
