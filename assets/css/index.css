@@ -6,6 +6,9 @@
 main{
 	max-width: 1000px;
 }
+.message-note a{
+	color: #F9BC05;
+}
 body {
 	font-family: 'Poppins', sans-serif;
 	background: #F7FAFF;
