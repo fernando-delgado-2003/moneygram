@@ -23,10 +23,10 @@ const app = initializeApp(firebaseConfig),
 async function addUser(user, ref) {
 	const docRef = doc(db, `dataUser/${user.uid}`);
 
-
 	const docSnap = await getDoc(docRef);
+
 	if (docSnap.exists()) {
-		location.href = "../../../home/"
+	//	location.href = "../../../home/"
 	} else {
 		if (ref == null) {
 			ref = "";
@@ -36,7 +36,8 @@ async function addUser(user, ref) {
 			paypal: "",
 			totalClick: 0,
 			ref: ref,
-			name: user.displayName
+			name: user.displayName,
+			gmail: user.email
 		})
 		message("Se agrego 500 coins por ser nuevo usuario", "sucsses");
 		setTimeout(()=>{
