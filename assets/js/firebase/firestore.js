@@ -36,8 +36,7 @@ async function addUser(user, ref) {
 			paypal: "",
 			totalClick: 0,
 			ref: ref,
-			name: user.displayName,
-			gmail: user.email
+			name: user.displayName
 		})
 		message("Se agrego 500 coins por ser nuevo usuario", "sucsses");
 		setTimeout(()=>{
