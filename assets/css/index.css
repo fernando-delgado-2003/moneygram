@@ -189,7 +189,9 @@ main {
 	font-size: .9rem;
 	color: #484848
 }
-
+.benefits .card p a{
+	color: #F9BC05;
+}
 .profile img {
 	width: 27px;
 	height: 27px;
