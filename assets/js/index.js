@@ -177,7 +177,7 @@
 	})
 	
 	$ad.innerHTML = `
-	<h3>Gana puntos, viendo videos de Youtube</h3>
+	<h3>Gana puntos, viendo videos de Youtube por mínimo de un minuto</h3>
 	<ul class="list-links">
 		${list}
 	</ul>
