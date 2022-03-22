@@ -26,7 +26,7 @@ async function addUser(user, ref) {
 	const docSnap = await getDoc(docRef);
 
 	if (docSnap.exists()) {
-	//	location.href = "../../../home/"
+		location.href = "../../../home/"
 	} else {
 		if (ref == null) {
 			ref = "";
