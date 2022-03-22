@@ -3,11 +3,12 @@ import {message} from "./components/components.js";
 onAuthStateChanged(auth, (user) => {
 	if (user) {
 		let params = new URLSearchParams(location.search);
-		let id = params.get('idlink');
+		let id = params.get('idlink'),
+		type=params.get('type');
 		getIdLink(user.uid)
 		.then((data)=>{
 			if(id == data.data().idLink){
-				updateUser(user.uid);
+				updateUser(user.uid, type);
 				setIdLink(user.uid, "")
 				message("Vista.confirmada", "sucsses");
 				setTimeout(()=>{

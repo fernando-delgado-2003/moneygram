@@ -46,8 +46,16 @@ async function addUser(user, ref) {
 
 }
 
-function updateUser(userId) {
-	const punts = random(39, 89)
+function updateUser(userId,type) {
+	let min,max = "";
+	if(type=="youtube"){
+		min=60;
+		max=89;
+	}else if(type=="post"){
+		min=30;
+		max= 89;
+	}
+	const punts = random(min, max)
 	updateDoc(doc(db, `dataUser/${userId}`), {
 		punts: increment(punts),
 		totalClick: increment(1)
