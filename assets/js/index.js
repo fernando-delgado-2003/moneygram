@@ -13,7 +13,7 @@
   	appId: "1:747586536101:web:28c19cff14b7b207eb034c",
   	measurementId: "G-MXGCES2H6Y"
   };
-
+	
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(),
   	userLogin = auth.currentUser,
@@ -50,7 +50,7 @@
   					addAdsYoutube(user ,data)
   				})
   		} else if (location.pathname == "/withdraw/" || location.pathname == "/withdraw/index.html") {
-
+				document.querySelector(".uid").innerHTML= user.uid;
 
   			let input = d.querySelector("form").querySelector("input[type='email']");
   			getPaypal(user.uid)
@@ -140,6 +140,7 @@
   	}
   	$ad.innerHTML = `
 	<ul class="list-links">
+	<h3>Gana desde 30 a 90 coins, con los anuncios básicos</h3>
 		${list}
 	</ul>
 	`;
@@ -177,7 +178,7 @@
 	})
 	
 	$ad.innerHTML = `
-	<h3>Gana puntos, viendo videos de Youtube por mínimo de un minuto</h3>
+	<h3>Gana desde 60 a 101 coins, viendo videos de Youtube por mínimo de un minuto</h3>
 	<ul class="list-links">
 		${list}
 	</ul>

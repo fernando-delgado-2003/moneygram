@@ -14,6 +14,14 @@ body {
 	background: #F7FAFF;
 }
 
+.uid{
+	position: absolute;
+	bottom: 1rem;
+	width: calc(100% - 1rem);
+	font-size: .7rem;
+	text-align: center;
+	color: #5D5E62;
+}
 a {
 	text-decoration: none;
 	color: #000000;
