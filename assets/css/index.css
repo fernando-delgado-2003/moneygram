@@ -173,6 +173,7 @@ header nav {
 	max-width: 1000px;
 	display: flex;
 	flex-wrap: wrap;
+	margin: 0 auto;
 }
 
 .benefits .card {
