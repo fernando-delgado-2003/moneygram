@@ -12,7 +12,11 @@
 	h3 {
 		font-size: 2rem;
 	}
-
+.home{
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
 }
 
 @media (min-width: 850px) {
@@ -25,10 +29,7 @@
 		max-width: calc(100% / 4 - 42px);
 		min-width: calc(100% / 4 - 42px);
 	}
-.home{
-	flex-direction: row;
-	align-items: center;
-}
+
 	h3 {
 		font-size: 2rem;
 
