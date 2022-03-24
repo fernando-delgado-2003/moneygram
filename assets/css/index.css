@@ -170,6 +170,7 @@ header nav {
 }
 
 .benefits {
+	max-width: 1000px;
 	display: flex;
 	flex-wrap: wrap;
 }
