@@ -13,7 +13,6 @@ body {
 	font-family: 'Poppins', sans-serif;
 	background: #F7FAFF;
 }
-
 .uid{
 	position: absolute;
 	bottom: 1rem;
@@ -121,8 +120,17 @@ header nav {
 }
 
 .home {
-	padding: 8rem 1rem 1rem 1rem;
+	padding: 2rem 1rem 1rem 1rem;
 	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+.home div{
+	max-width: 480px;
+	margin: 1rem 0;
+}
+.home img{
+	width: 100%;
 }
 
 .figures {

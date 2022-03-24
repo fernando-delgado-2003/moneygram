@@ -25,7 +25,9 @@
 		max-width: calc(100% / 4 - 42px);
 		min-width: calc(100% / 4 - 42px);
 	}
-
+.home{
+	flex-direction: row
+}
 	h3 {
 		font-size: 2rem;
 
