@@ -26,7 +26,8 @@
 		min-width: calc(100% / 4 - 42px);
 	}
 .home{
-	flex-direction: row
+	flex-direction: row;
+	align-items: center;
 }
 	h3 {
 		font-size: 2rem;
