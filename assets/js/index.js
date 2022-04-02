@@ -145,7 +145,7 @@ punts
 												time = Date.now() / 1000,
 												end = time + (3600 * 5);
 										addVideo(user, value.link, time, end, value.id)
-											updatePuntsForAddVideo(user.uid, fees)
+											updatePuntsForAddVideo(user.uid)
 										})
 										.catch((error) => {
 											message("Ocurrió un error, intente otra vez o más tarde", "error")
@@ -259,7 +259,9 @@ function addAdsYoutube(user, videos) {
 		${list}
 	</ul>
 	`;
-
+function getFees (){
+	return 1100
+}
 	const $adsYoutube = d.querySelectorAll(".ad-youtube");
 
 	$adsYoutube.forEach((link) => {

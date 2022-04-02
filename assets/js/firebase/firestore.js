@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js"
 import { query, getDocs, updateDoc, onSnapshot, getDoc, setDoc, doc, addDoc, getFirestore, collection, increment, where } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js"
 import { random, generateId, message, validateEmail } from "../components/components.js"
-
 const firebaseConfig = {
 	apiKey: "AIzaSyAULluDXNN1WDGvz4654lkSoMuYLg8VQrE",
 	authDomain: "money-video-432c2.firebaseapp.com",
@@ -17,7 +16,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig),
 	auth = getAuth(),
 	db = getFirestore(),
-	d = document;
+	d = document,
+	fees=1100;
 
 
 async function addUser(user, ref) {
@@ -117,7 +117,7 @@ async function getPuntsUser(userId, elemtHTML, add) {
 }
 
 
-async function getVideosUser(userId, punts, fees) {
+async function getVideosUser(userId, punts) {
 	moment.lang('es', {
 		months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
 		monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
@@ -129,6 +129,8 @@ async function getVideosUser(userId, punts, fees) {
 	const data = await getDoc(doc(db, `youtube/${userId}`)),
 		$accordion = d.getElementById("accordion");
 	let $td = '';
+				console.log(fees, 8)
+
 	if (data.exists()) {
 		let timestampStart = data.data().start * 1000,
 			timestampEnd = data.data().end * 1000;
@@ -145,6 +147,8 @@ async function getVideosUser(userId, punts, fees) {
 			})
 			.then(res => res.json())
 			.then((dataLink) => {
+							console.log(fees, 7)
+
 				$accordion.innerHTML = `
 				<div class="card">
 				<div class="card-header" id="card-header">
@@ -172,7 +176,9 @@ async function getVideosUser(userId, punts, fees) {
 				</div>
 			</div>
 		`;
-				updateTimeVideo(userId, punts, fees, timestampEnd)
+					console.log(fees, 6)
+
+				updateTimeVideo(userId, punts, timestampEnd)
 			})
 		await fetch(`https://api-ssl.bitly.com/v4/bitlinks/${data.data().id}/clicks?unit=month&units=1`, {
 				headers: {
@@ -196,20 +202,22 @@ async function getVideosUser(userId, punts, fees) {
 
 }
 
- function updateTimeVideo(userId, punts, fees, timeEnd) {
+ function updateTimeVideo(userId, punts, timeEnd) {
 	let $form = d.getElementById("form-add-time"),
 	$btnsTime = d.querySelectorAll(".btns-time");
 	
 	$btnsTime.forEach((btn)=>{
 		btn.addEventListener("click", (e)=>{
 			let number = e.target.dataset.time;
-			console.log(number)
+			console.log(fees, 1)
 			$form.querySelector("input[type='number']").value= number;
 		})
 	})
 
 	$form.addEventListener("submit",async (e) => {
 		e.preventDefault()
+					console.log(fees,2 )
+
 		let data = Object.fromEntries(new FormData(e.target))
 		if (!isNaN(data.number)) {
 			if (punts >= (fees * data.number)) {
@@ -222,6 +230,7 @@ async function getVideosUser(userId, punts, fees) {
 			let status= await updateDoc(doc(db, `youtube/${userId}`), {
 						end: increment(3600 * x)
 					})
+			console.log(fees, 3)
 
 				} else {
 			updatePuntsForAddVideo(userId, fees*data.number)
@@ -230,12 +239,19 @@ async function getVideosUser(userId, punts, fees) {
 						end: start + (3600 * x)
 					})
 				}
-				punts = punts - (fees*data.number);
+				let fees2 = fees;
+							console.log(fees, 4)
+
+				punts = punts - (fees2*data.number);
 									message(`Se agregaron ${x} horas a su vídeo`, "sucsses")
+			console.log(fees, 5)
 
 			}else{
 				let feesNew = fees*data.number;
 				message(`Necesitas ${feesNew.toLocaleString('en-US')} coins y le faltan ${(feesNew-punts).toLocaleString('en-US')} coins para continuar`, "normal")
+						console.log(fees, 5)
+
+				
 			}
 		}
 	})
@@ -281,7 +297,8 @@ async function setIdLink(userId, idLink) {
 	return status
 }
 
-async function updatePuntsForAddVideo(userId, fees) {
+async function updatePuntsForAddVideo(userId) {
+	
 	await updateDoc(doc(db, `dataUser/${userId}`), {
 		userPointsAddVideo: increment(fees),
 		punts: increment(-fees)
