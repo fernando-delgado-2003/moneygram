@@ -249,7 +249,9 @@ function addAdsYoutube(user, videos) {
 	videos.forEach((video) => {
 		i++;
 		id = generateId();
-		list += `<li><a href="${adfly}${myPage}videos/video ${random(1,101)}/?idLink=${id}&linkYoutube=${video.data().link}&idUser=${user.uid}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
+		if(Date.now()/1000 < video.data().end){
+				list += `<li><a href="${adfly}${myPage}videos/video ${random(1,101)}/?idLink=${id}&linkYoutube=${video.data().link}&idUser=${user.uid}" data-id="${id}" class="ad-youtube">Video ${i}</a></li>`;
+		}
 	})
 
 	$ad.innerHTML = `
