@@ -39,21 +39,21 @@ async function addUser(user, ref) {
 			name: user.displayName
 		})
 		message("Se agrego 500 coins por ser nuevo usuario", "sucsses");
-		setTimeout(()=>{
+		setTimeout(() => {
 			location.href = "../../../home/"
 		}, 4000)
 	}
 
 }
 
-function updateUser(userId,type) {
-	let min,max = "";
-	if(type=="youtube"){
-		min=60;
-		max=89;
-	}else if(type=="post"){
-		min=30;
-		max= 89;
+function updateUser(userId, type) {
+	let min, max = "";
+	if (type == "youtube") {
+		min = 60;
+		max = 89;
+	} else if (type == "post") {
+		min = 30;
+		max = 89;
 	}
 	const punts = random(min, max)
 	updateDoc(doc(db, `dataUser/${userId}`), {
@@ -64,13 +64,15 @@ function updateUser(userId,type) {
 
 }
 
-async function getPuntsUser(userId, elemtHTML) {
+async function getPuntsUser(userId, elemtHTML, add) {
 	const docRef = doc(db, `dataUser/${userId}`);
-	//COLOCAR EL SALDO DEL USUARIO
+	//COLOCAR LOS COINS DEL USUARIO
 	const punts = await getDoc(docRef)
 	if (punts.exists()) {
 		const puntsUser = punts.data().punts;
 		elemtHTML.innerHTML = `${puntsUser} <span class="sub-text">COINS</span>`;
+
+
 
 
 		//SOLO SI ESTAMOS EN LA PAGINA DE RETIRAR
@@ -102,19 +104,167 @@ async function getPuntsUser(userId, elemtHTML) {
 					message("Aun no alcanza el mínimo de retiro", "error")
 				}
 				d.querySelector("form").classList.remove("send")
-
 			}
-
-
-
-
+		} else if (location.href == '/add/' || location.href == '/add/index.html') {
+			if (add) {
+				message(`Se le han restado ${fee} coins`, "sucsses")
+			}
 		}
 
+
+		return punts
 	}
 }
+
+
+async function getVideosUser(userId, punts, fees) {
+	moment.lang('es', {
+		months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+		monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+		weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+		weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+		weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
+	});
+	moment.locale("es");
+	const data = await getDoc(doc(db, `youtube/${userId}`)),
+		$accordion = d.getElementById("accordion");
+	let $td = '';
+	if (data.exists()) {
+		let timestampStart = data.data().start * 1000,
+			timestampEnd = data.data().end * 1000;
+		/*
+		dateStart = new Date(timestampStart *1000),
+		dateStart2 = new Date(timestampStart*1000),
+		dateEnd = new Date(timestampEnd *1000),
+		dateEnd2= new Date(timestampEnd*1000);
+		*/
+		await fetch(`https://api-ssl.bitly.com/v4/bitlinks/${data.data().id}`, {
+				headers: {
+					'Authorization': '7bf94f0e727eff0fe7017e0f7a7a982286b4473b'
+				}
+			})
+			.then(res => res.json())
+			.then((dataLink) => {
+				$accordion.innerHTML = `
+				<div class="card">
+				<div class="card-header" id="card-header">
+					<button type="button">${dataLink.title}</button>
+					<span id="view-links"><i class='bx bx-show'></i></span>
+				</div>
+				<div class="card-body">
+					<p>Agregado un ${moment(timestampStart).format('dddd')} a las ${moment(timestampStart).format('LT')} en ${moment(timestampStart).format('ll')}</p>
+					<p>Se pausara un ${moment(timestampEnd).format('dddd')} a las ${moment(timestampEnd).format('LT')} en ${moment(timestampEnd).format('ll')}</p>
+
+					<form id="form-add-time">
+						<h4>Agrega mas tiempo</h4>
+						<div class="btns-time">
+						<button type="button" data-time="1" class="btn-time">5 horas</button>
+						<button type="button" data-time="3" class="btn-time">15 horas</button>
+						<button type="button" data-time="5" class="btn-time"> 24 horas (aproximado)</button>
+						</div>
+
+						<div>
+						<input type="number" name="number"id="time" value="1" />
+						<button type="submit" id="add-time" class="button">Añadir</button>
+						</div>
+						<p class="message-note center"> 1 = 5 horas, 2 = 10 horas y haci sucesivamente </p>
+					</form>
+				</div>
+			</div>
+		`;
+				updateTimeVideo(userId, punts, fees, timestampEnd)
+			})
+		await fetch(`https://api-ssl.bitly.com/v4/bitlinks/${data.data().id}/clicks?unit=month&units=1`, {
+				headers: {
+					'Authorization': '7bf94f0e727eff0fe7017e0f7a7a982286b4473b'
+				}
+			})
+			.then(res => res.json())
+			.then((dataClick) => {
+				accordion()
+				if (dataClick.message != "UPGRADE_REQUIRED") {
+
+					d.getElementById("view-links").innerHTML += `
+						${dataClick.link_clicks[0].clicks}
+			`;
+				}
+			})
+	}
+	else {
+		d.getElementById("add-video").classList.remove("disabled")
+	}
+
+}
+
+ function updateTimeVideo(userId, punts, fees, timeEnd) {
+	let $form = d.getElementById("form-add-time"),
+	$btnsTime = d.querySelectorAll(".btns-time");
+	
+	$btnsTime.forEach((btn)=>{
+		btn.addEventListener("click", (e)=>{
+			let number = e.target.dataset.time;
+			console.log(number)
+			$form.querySelector("input[type='number']").value= number;
+		})
+	})
+
+	$form.addEventListener("submit",async (e) => {
+		e.preventDefault()
+		let data = Object.fromEntries(new FormData(e.target))
+		if (!isNaN(data.number)) {
+			if (punts >= (fees * data.number)) {
+				let timestampEnd = timeEnd / 1000,
+					start = Date.now() / 1000,
+					x = data.number * 5;
+
+				if (parseInt(start) < timestampEnd) {
+					updatePuntsForAddVideo(userId, fees*data.number)
+			let status= await updateDoc(doc(db, `youtube/${userId}`), {
+						end: increment(3600 * x)
+					})
+
+				} else {
+			updatePuntsForAddVideo(userId, fees*data.number)
+			let status = await updateDoc(doc(db, `youtube/${userId}`),{
+						start: start,
+						end: start + (3600 * x)
+					})
+				}
+				punts = punts - (fees*data.number);
+									message(`Se agregaron ${x} horas a su vídeo`, "sucsses")
+
+			}else{
+				let feesNew = fees*data.number;
+				message(`Necesitas ${feesNew.toLocaleString('en-US')} coins y le faltan ${(feesNew-punts).toLocaleString('en-US')} coins para continuar`, "normal")
+			}
+		}
+	})
+
+}
+
+function accordion() {
+	//PARA CUANDO SE PUEDA AGREGAR MAS DE UN VÍDEO
+
+	let cards = d.querySelectorAll(".card");
+
+	cards.forEach((card, i) => {
+		card.querySelector(".card-header").addEventListener("click", (e) => {
+			let cardBodyHeight = card.querySelector(".card-body").scrollHeight;
+			card.classList.toggle("active")
+			if (card.classList.contains("active")) {
+				card.querySelector(".card-body").style.height = `${cardBodyHeight}px`;
+			} else {
+				card.querySelector(".card-body").style.height = `0`;
+			}
+		})
+	})
+
+}
+
+
 async function getPaypal(userId) {
-	const paypal = await getDoc(doc(db, `dataUser/${userId}`));
-	return paypal
+	const status = await getDoc(doc(db, `dataUser/${userId}`));
+	return status
 }
 async function getVideosYoutube() {
 	const videos = await getDocs(collection(db, `youtube`));
@@ -130,6 +280,32 @@ async function setIdLink(userId, idLink) {
 	})
 	return status
 }
+
+async function updatePuntsForAddVideo(userId, fee) {
+	await updateDoc(doc(db, `dataUser/${userId}`), {
+		userPointsAddVideo: increment(fee),
+		punts: increment(-fee)
+	})
+	getPuntsUser(userId, d.getElementById("punts"), true)
+
+}
+
+async function addVideo(user, url, start, end, id) {
+
+	const docRef = doc(db, `youtube/${user.uid}`);
+	const status = await setDoc(docRef, {
+		link: url,
+		start: start,
+		end: end,
+		id: id
+
+	});
+
+	message("Su video fue agregado correctamente", "sucsses")
+}
+
+
+
 async function getCodeRef(userId) {
 	const code = await getDoc(doc(db, `dataUser/${userId}`))
 	return code
@@ -162,6 +338,7 @@ async function getUserRef(codeRef) {
 		`;
 	})
 
-	d.getElementById("list-ref").innerHTML= template;
+	d.getElementById("list-ref").innerHTML = template;
 }
-export { getUserRef, setCodeRef, getCodeRef, getIdLink, setIdLink, getVideosYoutube, getPaypal, db, getPuntsUser, doc, addUser, getDoc, auth, updateUser, onAuthStateChanged }
+
+export { getVideosUser, updatePuntsForAddVideo, addVideo, getUserRef, setCodeRef, getCodeRef, getIdLink, setIdLink, getVideosYoutube, getPaypal, db, getPuntsUser, doc, addUser, getDoc, auth, updateUser, onAuthStateChanged }

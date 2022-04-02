@@ -20,7 +20,7 @@ function message(txt, type) {
 		setTimeout(() => {
 			$message.remove()
 		}, 1200)
-	}, 3500)
+	}, 5000)
 }
 function validateEmail(email) {
   if (/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(email)){
