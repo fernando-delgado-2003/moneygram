@@ -102,7 +102,7 @@ onAuthStateChanged(auth, (user) => {
 			let urlexp = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/|m\.youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
 			let form = d.getElementById("add-video"),
 				$btnAddVideo = d.getElementById("btn-add-video");
-			let fees = 1100;
+			const fees = 1100;
 
 punts
 .then((data)=>{
@@ -119,7 +119,6 @@ punts
 				if (urlexp.test(url)) {
 
 					if (isNaN(title)) {
-
 						$btnAddVideo.value = "Verificado y agregado video"
 						punts
 							.then((data) => {

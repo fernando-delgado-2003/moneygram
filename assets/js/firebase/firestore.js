@@ -281,13 +281,17 @@ async function setIdLink(userId, idLink) {
 	return status
 }
 
-async function updatePuntsForAddVideo(userId, fee) {
+async function updatePuntsForAddVideo(userId, fees) {
 	await updateDoc(doc(db, `dataUser/${userId}`), {
-		userPointsAddVideo: increment(fee),
-		punts: increment(-fee)
+		userPointsAddVideo: increment(fees),
+		punts: increment(-fees)
 	})
-	getPuntsUser(userId, d.getElementById("punts"), true)
-
+	let punts = getPuntsUser(userId, d.getElementById("punts"), true)
+punts
+.then((data)=>{
+	getVideosUser(userId, data.data().punts, fees)
+	document.getElementById("add-video").classList.add("disabled")
+})
 }
 
 async function addVideo(user, url, start, end, id) {
