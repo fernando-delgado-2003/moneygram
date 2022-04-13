@@ -129,7 +129,6 @@ async function getVideosUser(userId, punts) {
 	const data = await getDoc(doc(db, `youtube/${userId}`)),
 		$accordion = d.getElementById("accordion");
 	let $td = '';
-				console.log(fees, 8)
 
 	if (data.exists()) {
 		let timestampStart = data.data().start * 1000,
@@ -147,7 +146,6 @@ async function getVideosUser(userId, punts) {
 			})
 			.then(res => res.json())
 			.then((dataLink) => {
-							console.log(fees, 7)
 
 				$accordion.innerHTML = `
 				<div class="card">
@@ -176,8 +174,6 @@ async function getVideosUser(userId, punts) {
 				</div>
 			</div>
 		`;
-					console.log(fees, 6)
-
 				updateTimeVideo(userId, punts, timestampEnd)
 			})
 		await fetch(`https://api-ssl.bitly.com/v4/bitlinks/${data.data().id}/clicks?unit=month&units=1`, {
@@ -209,14 +205,12 @@ async function getVideosUser(userId, punts) {
 	$btnsTime.forEach((btn)=>{
 		btn.addEventListener("click", (e)=>{
 			let number = e.target.dataset.time;
-			console.log(fees, 1)
 			$form.querySelector("input[type='number']").value= number;
 		})
 	})
 
 	$form.addEventListener("submit",async (e) => {
 		e.preventDefault()
-					console.log(fees,2 )
 
 		let data = Object.fromEntries(new FormData(e.target))
 		if (!isNaN(data.number)) {
@@ -230,7 +224,6 @@ async function getVideosUser(userId, punts) {
 			let status= await updateDoc(doc(db, `youtube/${userId}`), {
 						end: increment(3600 * x)
 					})
-			console.log(fees, 3)
 
 				} else {
 			updatePuntsForAddVideo(userId, fees*data.number)
@@ -240,17 +233,13 @@ async function getVideosUser(userId, punts) {
 					})
 				}
 				let fees2 = fees;
-							console.log(fees, 4)
 
 				punts = punts - (fees2*data.number);
 									message(`Se agregaron ${x} horas a su vídeo`, "sucsses")
-			console.log(fees, 5)
 
 			}else{
 				let feesNew = fees*data.number;
 				message(`Necesitas ${feesNew.toLocaleString('en-US')} coins y le faltan ${(feesNew-punts).toLocaleString('en-US')} coins para continuar`, "normal")
-						console.log(fees, 5)
-
 				
 			}
 		}
